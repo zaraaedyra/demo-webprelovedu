@@ -1,0 +1,755 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0" />
+  <title>Pasang Iklan Preloved — PRELOVEDU</title>
+
+  <!-- Bootstrap 5 Grid & Utilities -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
+
+  <!-- Leaflet CSS & JS via CDN -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+
+  <!-- PRELOVEDU Styles -->
+  <link rel="stylesheet" href="../assets/css/tokens.css" />
+  <link rel="stylesheet" href="../assets/css/base.css" />
+  <link rel="stylesheet" href="../assets/css/components.css" />
+  <link rel="stylesheet" href="../assets/css/pages.css" />
+  <link rel="stylesheet" href="../assets/css/refine.css" />
+
+  <style>
+    .stepper-header {
+      display: flex;
+      justify-content: space-between;
+      position: relative;
+      margin-bottom: 2rem;
+    }
+
+    .stepper-header::before {
+      content: '';
+      position: absolute;
+      top: 18px;
+      left: 8%;
+      right: 8%;
+      height: 3px;
+      background-color: rgba(42, 42, 42, 0.15);
+      z-index: 0;
+    }
+
+    .step-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      position: relative;
+      z-index: 1;
+    }
+
+    .step-indicator {
+      width: 38px;
+      height: 38px;
+      border-radius: var(--radius-circle);
+      border: var(--border-thick);
+      background-color: var(--white);
+      color: var(--ink);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 800;
+      font-size: 0.9rem;
+      transition: all var(--transition-fast);
+    }
+
+    .step-indicator.active {
+      background-color: var(--lime);
+      box-shadow: 0 0 0 4px rgba(201, 242, 107, 0.4);
+    }
+
+    .step-indicator.completed {
+      background-color: var(--ink);
+      color: var(--white);
+    }
+
+    .step-title {
+      font-size: 0.72rem;
+      font-weight: 700;
+      margin-top: 6px;
+      color: var(--ink-muted);
+      text-align: center;
+    }
+
+    .step-title.active {
+      color: var(--ink);
+      font-weight: 800;
+    }
+
+    .campus-tab-btn {
+      flex: 1;
+      padding: 0.75rem 1rem;
+      border: var(--border-thick);
+      border-radius: var(--radius-inner);
+      background: var(--white);
+      font-weight: 700;
+      font-size: 0.9rem;
+      color: var(--ink);
+      cursor: pointer;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 2px;
+      transition: all var(--transition-fast);
+    }
+
+    .campus-tab-btn.active {
+      background-color: var(--lilac);
+      box-shadow: var(--shadow-flat);
+      transform: translateY(-2px);
+    }
+
+    .spot-pill-btn {
+      padding: 0.4rem 0.85rem;
+      border: 1.5px solid var(--ink);
+      border-radius: var(--radius-pill);
+      background: var(--white);
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: var(--ink);
+      cursor: pointer;
+      white-space: nowrap;
+      transition: all var(--transition-fast);
+    }
+
+    .spot-pill-btn:hover {
+      background: var(--paper);
+    }
+
+    .spot-pill-btn.active {
+      background: var(--lime);
+      font-weight: 800;
+      box-shadow: 0 2px 0 var(--ink);
+    }
+
+    .summary-card {
+      background: var(--paper);
+      border: 2px solid var(--ink);
+      border-radius: var(--radius-inner);
+      padding: 1.25rem;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Header Mount -->
+  <div id="header-mount"></div>
+
+  <main class="app-container" style="padding-top: 1.5rem; max-width: 720px; padding-bottom: 5rem;">
+    <!-- Title Bar -->
+    <div class="d-flex align-items-center gap-3 mb-4">
+      <a href="../index.html" class="btn-circle btn-circle-white" aria-label="Kembali ke Beranda">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="19" y1="12" x2="5" y2="12"></line>
+          <polyline points="12 19 5 12 12 5"></polyline>
+        </svg>
+      </a>
+      <div>
+        <h1 class="hero-title" style="font-size: 1.75rem; margin-bottom: 0.15rem;">Pasang Iklan Barang</h1>
+        <p style="font-size: 0.85rem; color: var(--ink-muted); margin: 0;">Jual barang preloved kuliah ke sesama mahasiswa Unsil</p>
+      </div>
+    </div>
+
+    <!-- Stepper Header (4 Tahap: Info Barang -> Kondisi & Harga -> Titik COD -> Ringkasan) -->
+    <div class="stepper-header">
+      <div class="step-item">
+        <div class="step-indicator active" id="step-dot-1">1</div>
+        <span class="step-title active" id="step-text-1">Info Barang</span>
+      </div>
+      <div class="step-item">
+        <div class="step-indicator" id="step-dot-2">2</div>
+        <span class="step-title" id="step-text-2">Kondisi & Harga</span>
+      </div>
+      <div class="step-item">
+        <div class="step-indicator" id="step-dot-3">3</div>
+        <span class="step-title" id="step-text-3">Titik COD Peta</span>
+      </div>
+      <div class="step-item">
+        <div class="step-indicator" id="step-dot-4">4</div>
+        <span class="step-title" id="step-text-4">Ringkasan</span>
+      </div>
+    </div>
+
+    <!-- Form Container Stepper -->
+    <div class="card p-4 mb-5" style="border: var(--border-thick); border-radius: var(--radius-card); background: #fff; box-shadow: var(--shadow-flat);">
+      <form id="sell-form">
+
+        <!-- ==============================================
+             STEP 1: INFO BARANG
+             ============================================== -->
+        <div id="step-content-1">
+          <div class="d-flex align-items-center justify-content-between mb-3">
+            <h2 style="font-family: var(--font-serif); font-size: 1.3rem; margin: 0;">1. Informasi Barang</h2>
+            <span class="badge-pill badge-pill-lime">Langkah 1/4</span>
+          </div>
+
+          <div class="mb-3">
+            <label class="form-label fw-bold" style="font-size: 0.88rem;">Judul Iklan Barang *</label>
+            <input type="text" id="form-title" class="input-pill" placeholder="Contoh: Kalkulus Purcell Edisi 9 Jilid 1 Bekas Mulus" required />
+            <small class="text-muted" style="font-size: 0.78rem;">Sebutkan merek, judul, atau tipe secara jelas.</small>
+          </div>
+
+          <div class="row g-3 mb-3">
+            <div class="col-sm-6">
+              <label class="form-label fw-bold" style="font-size: 0.88rem;">Kategori Barang *</label>
+              <select id="form-category" class="input-pill select-pill" required>
+                <option value="buku">Buku Bekas Kuliah</option>
+                <option value="pakaian">Pakaian / Jaket / Jas Lab</option>
+                <option value="elektronik">Perangkat Elektronik / Kalkulator</option>
+                <option value="perabot">Perabot Kost / Meja Belajar</option>
+                <option value="praktikum">Peralatan Praktikum / Tulis</option>
+                <option value="lainnya">Lain-lain</option>
+              </select>
+            </div>
+            <div class="col-sm-6">
+              <label class="form-label fw-bold" style="font-size: 0.88rem;">Fakultas Sasaran / Asal *</label>
+              <select id="form-faculty" class="input-pill select-pill" required>
+                <option value="Teknik">Teknik</option>
+                <option value="Ekonomi & Bisnis">Ekonomi & Bisnis</option>
+                <option value="MIPA">MIPA</option>
+                <option value="Hukum">Hukum</option>
+                <option value="Fasilkom">Fasilkom</option>
+                <option value="FISIP">FISIP</option>
+                <option value="Kedokteran">Kedokteran</option>
+                <option value="Pertanian">Pertanian</option>
+                <option value="FKIP">FKIP</option>
+                <option value="Umum">Umum (Semua Jurusan)</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="mb-3">
+            <label class="form-label fw-bold" style="font-size: 0.88rem;">Deskripsi & Catatan Barang *</label>
+            <textarea id="form-desc" class="input-pill" rows="4" style="border-radius: var(--radius-inner); padding: 0.75rem 1rem;" placeholder="Jelaskan kondisi fisik, kelengkapan, coretan, pemakaian, dan alasan dijual..." required></textarea>
+          </div>
+
+          <button type="button" class="btn-pill btn-pill-lime w-100 mt-2" id="btn-next-1">
+            <span>Lanjut ke Kondisi & Harga →</span>
+          </button>
+        </div>
+
+        <!-- ==============================================
+             STEP 2: KONDISI & HARGA
+             ============================================== -->
+        <div id="step-content-2" style="display: none;">
+          <div class="d-flex align-items-center justify-content-between mb-3">
+            <h2 style="font-family: var(--font-serif); font-size: 1.3rem; margin: 0;">2. Kondisi & Harga</h2>
+            <span class="badge-pill badge-pill-lime">Langkah 2/4</span>
+          </div>
+
+          <div class="mb-3">
+            <label class="form-label fw-bold" style="font-size: 0.88rem;">Kondisi Barang *</label>
+            <select id="form-condition" class="input-pill select-pill" required>
+              <option value="Seperti baru">Seperti Baru (Mulus 95-99%)</option>
+              <option value="Baik">Kondisi Baik (Pemakaian wajar 80-90%)</option>
+              <option value="Layak pakai">Layak Pakai (Fungsi normal 70-80%)</option>
+            </select>
+          </div>
+
+          <div class="row g-3 mb-3">
+            <div class="col-sm-6">
+              <label class="form-label fw-bold" style="font-size: 0.88rem;">Harga Jual (Rp) *</label>
+              <input type="number" id="form-price" class="input-pill" style="font-size: 1.15rem; font-weight: 700;" placeholder="Contoh: 65000" min="1000" required />
+            </div>
+            <div class="col-sm-6">
+              <label class="form-label fw-bold" style="font-size: 0.88rem;">Estimasi Harga Baru (Rp)</label>
+              <input type="number" id="form-original-price" class="input-pill" placeholder="Contoh: 145000 (opsional)" min="0" />
+            </div>
+          </div>
+
+          <div class="mb-3">
+            <label class="form-label fw-bold" style="font-size: 0.88rem;">Pilihan Foto Barang</label>
+            <div class="d-flex gap-2 align-items-center flex-wrap" id="photo-choice-container">
+              <label class="d-flex align-items-center gap-2 p-2 border rounded" style="cursor: pointer; background: var(--paper);">
+                <input type="radio" name="photo_preset" value="assets/img/products/prd-001-1.jpg" checked />
+                <span style="font-size: 0.82rem; font-weight: 600;">Buku / Catatan</span>
+              </label>
+              <label class="d-flex align-items-center gap-2 p-2 border rounded" style="cursor: pointer; background: var(--paper);">
+                <input type="radio" name="photo_preset" value="assets/img/products/prd-002-1.jpg" />
+                <span style="font-size: 0.82rem; font-weight: 600;">Jas Lab / Pakaian</span>
+              </label>
+              <label class="d-flex align-items-center gap-2 p-2 border rounded" style="cursor: pointer; background: var(--paper);">
+                <input type="radio" name="photo_preset" value="assets/img/products/prd-004-1.jpg" />
+                <span style="font-size: 0.82rem; font-weight: 600;">Kalkulator / Elektronik</span>
+              </label>
+              <label class="d-flex align-items-center gap-2 p-2 border rounded" style="cursor: pointer; background: var(--paper);">
+                <input type="radio" name="photo_preset" value="assets/img/products/prd-003-1.jpg" />
+                <span style="font-size: 0.82rem; font-weight: 600;">Hoodie / Jaket</span>
+              </label>
+            </div>
+          </div>
+
+          <div class="d-flex gap-2 mt-4">
+            <button type="button" class="btn-pill btn-pill-outline w-50" id="btn-back-2">← Kembali</button>
+            <button type="button" class="btn-pill btn-pill-lime w-50" id="btn-next-2">Lanjut ke Titik COD →</button>
+          </div>
+        </div>
+
+        <!-- ==============================================
+             STEP 3: KAMPUS & TITIK COD DI PETA
+             ============================================== -->
+        <div id="step-content-3" style="display: none;">
+          <div class="d-flex align-items-center justify-content-between mb-2">
+            <h2 style="font-family: var(--font-serif); font-size: 1.3rem; margin: 0;">3. Kampus & Titik COD</h2>
+            <span class="badge-pill badge-pill-lime">Langkah 3/4</span>
+          </div>
+          <p style="font-size: 0.85rem; color: var(--ink-muted); margin-bottom: 1.25rem;">
+            Pilih Kampus 1 atau Kampus 2 Unsil. Pilih spot aman resmi atau klik langsung di peta untuk titik bebas di dalam batas kampus.
+          </p>
+
+          <!-- Tab Pilihan Kampus -->
+          <div class="d-flex gap-2 mb-3">
+            <button type="button" class="campus-tab-btn active" id="tab-kampus-1" data-campus="kampus-1">
+              <span>🏛️ Kampus 1 Unsil</span>
+              <small style="font-size: 0.72rem; color: var(--ink-muted);">Jl. Siliwangi No.24</small>
+            </button>
+            <button type="button" class="campus-tab-btn" id="tab-kampus-2" data-campus="kampus-2">
+              <span>🌿 Kampus 2 Unsil</span>
+              <small style="font-size: 0.72rem; color: var(--ink-muted);">Mugarsari, Tamansari</small>
+            </button>
+          </div>
+
+          <!-- Spot Preset Chips Horisontal -->
+          <div class="mb-3">
+            <label class="form-label fw-bold d-flex justify-content-between align-items-center" style="font-size: 0.82rem; margin-bottom: 0.35rem;">
+              <span>Preset Spot Aman Kampus:</span>
+              <span class="badge-pill badge-pill-lilac" style="font-size: 0.7rem;">Paling Direkomendasikan</span>
+            </label>
+            <div id="preset-spots-container" class="d-flex gap-2 flex-wrap"></div>
+          </div>
+
+          <!-- Petunjuk Peta Interaktif -->
+          <div class="d-flex align-items-center gap-2 p-2 mb-2" style="background: var(--paper); border-radius: var(--radius-sm); font-size: 0.78rem;">
+            <span style="color: var(--heart-red); font-size: 1rem;">📍</span>
+            <span><strong>Tips:</strong> Klik peta untuk menentukan titik bebas. Klik di luar batas kampus otomatis ditolak.</span>
+          </div>
+
+          <!-- Kontainer Peta Leaflet -->
+          <div class="map-wrapper mb-3">
+            <div id="cod-picker-map" class="map-container" style="height: 320px;"></div>
+          </div>
+
+          <!-- Kartu Status Titik Terpilih Realtime -->
+          <div class="p-3 mb-4" id="selected-spot-card" style="background: var(--white); border: 2px solid var(--ink); border-radius: var(--radius-sm); box-shadow: 0 2px 0 var(--ink);">
+            <div class="d-flex align-items-center justify-content-between mb-1">
+              <span class="badge-pill badge-pill-lime" id="selected-spot-badge">🛡️ Spot Aman Kampus</span>
+              <span id="selected-spot-campus" style="font-size: 0.8rem; font-weight: 700; color: var(--ink-muted);">Kampus 1 Unsil</span>
+            </div>
+            <strong id="selected-spot-title" style="font-size: 0.95rem; color: var(--ink); display: block;">Rektorat & Plaza Utama Unsil</strong>
+            <div id="selected-spot-coords-text" style="font-size: 0.78rem; font-family: monospace; color: var(--ink-light); margin-top: 2px;">
+              Koordinat: -7.3438, 108.2236
+            </div>
+          </div>
+
+          <div class="d-flex gap-2">
+            <button type="button" class="btn-pill btn-pill-outline w-50" id="btn-back-3">← Kembali</button>
+            <button type="button" class="btn-pill btn-pill-lime w-50" id="btn-next-3">Lanjut ke Ringkasan →</button>
+          </div>
+        </div>
+
+        <!-- ==============================================
+             STEP 4: RINGKASAN & TERBITKAN
+             ============================================== -->
+        <div id="step-content-4" style="display: none;">
+          <div class="d-flex align-items-center justify-content-between mb-3">
+            <h2 style="font-family: var(--font-serif); font-size: 1.3rem; margin: 0;">4. Ringkasan Iklan</h2>
+            <span class="badge-pill badge-pill-lime">Langkah 4/4</span>
+          </div>
+          <p style="font-size: 0.85rem; color: var(--ink-muted); margin-bottom: 1.25rem;">
+            Periksa kembali detail iklan dan titik janjian COD sebelum diterbitkan ke katalog kampus.
+          </p>
+
+          <!-- Pratinjau Kartu Ringkasan -->
+          <div class="summary-card mb-4">
+            <div class="d-flex gap-3 align-items-center mb-3">
+              <img id="summary-img" src="../assets/img/products/prd-001-1.jpg" alt="Preview Foto" style="width: 80px; height: 80px; object-fit: cover; border-radius: 12px; border: 2px solid var(--ink);" />
+              <div>
+                <span class="badge-pill badge-pill-lime" id="summary-condition" style="font-size: 0.72rem;">Seperti baru</span>
+                <span class="badge-pill badge-pill-lilac" id="summary-faculty" style="font-size: 0.72rem;">Teknik</span>
+                <h3 id="summary-title" style="font-family: var(--font-serif); font-size: 1.15rem; margin: 0.35rem 0 0.15rem 0; color: var(--ink);">
+                  Judul Barang
+                </h3>
+                <div class="d-flex align-items-baseline gap-2">
+                  <span id="summary-price" class="product-price-val" style="font-size: 1.35rem; color: var(--ink);">Rp 0</span>
+                  <span id="summary-orig-price" style="text-decoration: line-through; color: var(--ink-muted); font-size: 0.82rem;"></span>
+                </div>
+              </div>
+            </div>
+
+            <hr style="border-top: 1.5px dashed rgba(42,42,42,0.2); margin: 0.75rem 0;" />
+
+            <div class="mb-2">
+              <span style="font-size: 0.8rem; font-weight: 700; color: var(--ink-muted);">Deskripsi:</span>
+              <p id="summary-desc" style="font-size: 0.85rem; color: var(--ink-light); margin: 0.2rem 0; line-height: 1.45;"></p>
+            </div>
+
+            <hr style="border-top: 1.5px dashed rgba(42,42,42,0.2); margin: 0.75rem 0;" />
+
+            <!-- Ringkasan Lokasi COD Peta -->
+            <div>
+              <span style="font-size: 0.8rem; font-weight: 700; color: var(--ink-muted);">Lokasi Janjian COD Kampus:</span>
+              <div class="d-flex align-items-center gap-2 mt-1">
+                <span style="color: var(--heart-red); font-size: 1.2rem;">📍</span>
+                <div>
+                  <strong id="summary-cod-spot" style="font-size: 0.92rem; color: var(--ink);">Rektorat & Plaza Utama Unsil</strong>
+                  <div id="summary-cod-campus" style="font-size: 0.78rem; color: var(--ink-muted);">Kampus 1 Unsil · Koordinat: -7.3438, 108.2236</div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Penjual Info Box -->
+          <div class="p-3 mb-4" style="background: var(--white); border-radius: var(--radius-sm); border: 2px solid var(--ink);">
+            <div class="d-flex align-items-center gap-2">
+              <span class="badge-pill badge-verified">✓ Terverifikasi</span>
+              <span id="summary-seller-name" style="font-size: 0.85rem; font-weight: 700;">Iklan akan tayang atas nama Zahra Putri (Informatika 2024)</span>
+            </div>
+          </div>
+
+          <div class="d-flex gap-2">
+            <button type="button" class="btn-pill btn-pill-outline w-50" id="btn-back-4">← Kembali</button>
+            <button type="submit" class="btn-pill btn-pill-lime w-50" id="btn-publish">🎉 Terbitkan Iklan!</button>
+          </div>
+        </div>
+
+      </form>
+    </div>
+  </main>
+
+  <!-- Bottom Nav Mount -->
+  <div id="bottom-nav-mount"></div>
+
+  <!-- Script Modules -->
+  <script type="module">
+    import { renderHeader, renderBottomNav, showToast } from '../assets/js/components/navbar.js';
+    import { renderFavicon } from '../assets/js/components/logo.js';
+    import { addProduct, getCurrentUser } from '../assets/js/services/storage.js';
+    import { campusSpots, getCampus } from '../assets/js/data/campus-spots.js';
+    import { initCodPickerMap } from '../assets/js/components/map.js';
+
+    let pickerMapInstance = null;
+    let selectedCodLocation = {
+      campus: 'kampus-1',
+      campusName: 'Kampus 1 Unsil',
+      spotId: 'k1-1',
+      lat: -7.3438,
+      lng: 108.2236,
+      spotName: 'Rektorat & Plaza Utama Unsil',
+      isCustom: false
+    };
+
+    document.addEventListener('DOMContentLoaded', () => {
+      // Pasang Favicon
+      const linkFavicon = document.createElement('link');
+      linkFavicon.rel = 'icon';
+      linkFavicon.type = 'image/svg+xml';
+      linkFavicon.href = renderFavicon();
+      document.head.appendChild(linkFavicon);
+
+      // Render Navigasi
+      document.getElementById('header-mount').innerHTML = renderHeader('jual', '../');
+      document.getElementById('bottom-nav-mount').innerHTML = renderBottomNav('jual', '../');
+
+      // Update Info Penjual di Ringkasan
+      const user = getCurrentUser();
+      const sellerInfoEl = document.getElementById('summary-seller-name');
+      if (sellerInfoEl && user) {
+        sellerInfoEl.textContent = `Iklan akan tayang atas nama ${user.name} (${user.faculty})`;
+      }
+
+      setupStepper();
+      setupCampusTabsAndPresets();
+    });
+
+    /**
+     * Inisialisasi Peta Leaflet untuk Picker Titik COD
+     */
+    function setupPickerMap() {
+      if (pickerMapInstance) {
+        pickerMapInstance.invalidateSize();
+        return;
+      }
+
+      pickerMapInstance = initCodPickerMap('cod-picker-map', {
+        initialCampus: selectedCodLocation.campus,
+        initialSpotId: selectedCodLocation.spotId,
+        initialLat: selectedCodLocation.lat,
+        initialLng: selectedCodLocation.lng,
+        onChange: (data) => {
+          selectedCodLocation = data;
+          updateSelectedSpotUI(data);
+        },
+        onError: (errMsg) => {
+          showToast(`⚠️ ${errMsg}`);
+        }
+      });
+    }
+
+    /**
+     * Update UI Card Status Titik Terpilih
+     */
+    function updateSelectedSpotUI(data) {
+      const badgeEl = document.getElementById('selected-spot-badge');
+      const titleEl = document.getElementById('selected-spot-title');
+      const campusEl = document.getElementById('selected-spot-campus');
+      const coordsEl = document.getElementById('selected-spot-coords-text');
+
+      if (data.spotId) {
+        badgeEl.textContent = '🛡️ Spot Aman Kampus';
+        badgeEl.className = 'badge-pill badge-pill-lime';
+      } else {
+        badgeEl.textContent = '📍 Titik COD Kustom';
+        badgeEl.className = 'badge-pill badge-pill-lilac';
+      }
+
+      titleEl.textContent = data.spotName;
+      campusEl.textContent = data.campusName;
+      coordsEl.textContent = `Koordinat: ${data.lat}, ${data.lng}`;
+
+      // Update juga active state pada pill preset spots
+      document.querySelectorAll('.spot-pill-btn').forEach(btn => {
+        btn.classList.toggle('active', btn.getAttribute('data-spot-id') === data.spotId);
+      });
+    }
+
+    /**
+     * Render preset spot buttons sesuai kampus yang dipilih
+     */
+    function renderPresetSpotButtons(campusId) {
+      const container = document.getElementById('preset-spots-container');
+      const campus = getCampus(campusId);
+      if (!container || !campus) return;
+
+      container.innerHTML = campus.spots.map(spot => {
+        const isCurrent = selectedCodLocation.spotId === spot.id;
+        return `
+          <button type="button" class="spot-pill-btn ${isCurrent ? 'active' : ''}" data-spot-id="${spot.id}">
+            📍 ${spot.name}
+          </button>
+        `;
+      }).join('');
+
+      container.querySelectorAll('.spot-pill-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+          const sId = btn.getAttribute('data-spot-id');
+          if (pickerMapInstance) {
+            pickerMapInstance.selectPresetSpot(sId, true);
+          }
+        });
+      });
+    }
+
+    /**
+     * Setup interaksi pergantian tab Kampus 1 & 2
+     */
+    function setupCampusTabsAndPresets() {
+      const tabK1 = document.getElementById('tab-kampus-1');
+      const tabK2 = document.getElementById('tab-kampus-2');
+
+      renderPresetSpotButtons('kampus-1');
+
+      tabK1.addEventListener('click', () => {
+        if (selectedCodLocation.campus === 'kampus-1') return;
+        tabK1.classList.add('active');
+        tabK2.classList.remove('active');
+        if (pickerMapInstance) {
+          pickerMapInstance.setCampus('kampus-1');
+        }
+        renderPresetSpotButtons('kampus-1');
+      });
+
+      tabK2.addEventListener('click', () => {
+        if (selectedCodLocation.campus === 'kampus-2') return;
+        tabK2.classList.add('active');
+        tabK1.classList.remove('active');
+        if (pickerMapInstance) {
+          pickerMapInstance.setCampus('kampus-2');
+        }
+        renderPresetSpotButtons('kampus-2');
+      });
+    }
+
+    /**
+     * Navigasi Stepper 4 Tahap
+     */
+    function setupStepper() {
+      const step1 = document.getElementById('step-content-1');
+      const step2 = document.getElementById('step-content-2');
+      const step3 = document.getElementById('step-content-3');
+      const step4 = document.getElementById('step-content-4');
+
+      const dot1 = document.getElementById('step-dot-1');
+      const dot2 = document.getElementById('step-dot-2');
+      const dot3 = document.getElementById('step-dot-3');
+      const dot4 = document.getElementById('step-dot-4');
+
+      const txt1 = document.getElementById('step-text-1');
+      const txt2 = document.getElementById('step-text-2');
+      const txt3 = document.getElementById('step-text-3');
+      const txt4 = document.getElementById('step-text-4');
+
+      function setStep(stepNum) {
+        step1.style.display = stepNum === 1 ? 'block' : 'none';
+        step2.style.display = stepNum === 2 ? 'block' : 'none';
+        step3.style.display = stepNum === 3 ? 'block' : 'none';
+        step4.style.display = stepNum === 4 ? 'block' : 'none';
+
+        const dots = [dot1, dot2, dot3, dot4];
+        const texts = [txt1, txt2, txt3, txt4];
+
+        dots.forEach((dot, idx) => {
+          const num = idx + 1;
+          dot.classList.remove('active', 'completed');
+          texts[idx].classList.remove('active');
+          if (num === stepNum) {
+            dot.classList.add('active');
+            texts[idx].classList.add('active');
+          } else if (num < stepNum) {
+            dot.classList.add('completed');
+          }
+        });
+
+        window.scrollTo({ top: 120, behavior: 'smooth' });
+
+        if (stepNum === 3) {
+          setTimeout(() => {
+            setupPickerMap();
+            if (pickerMapInstance) pickerMapInstance.invalidateSize();
+          }, 150);
+        } else if (stepNum === 4) {
+          populateSummary();
+        }
+      }
+
+      // Step 1 -> 2
+      document.getElementById('btn-next-1').addEventListener('click', () => {
+        const title = document.getElementById('form-title').value.trim();
+        const desc = document.getElementById('form-desc').value.trim();
+        if (!title) {
+          alert('Silakan isi judul iklan barang terlebih dahulu.');
+          document.getElementById('form-title').focus();
+          return;
+        }
+        if (!desc) {
+          alert('Silakan isi deskripsi kondisi barang.');
+          document.getElementById('form-desc').focus();
+          return;
+        }
+        setStep(2);
+      });
+
+      // Step 2 -> 1
+      document.getElementById('btn-back-2').addEventListener('click', () => setStep(1));
+
+      // Step 2 -> 3
+      document.getElementById('btn-next-2').addEventListener('click', () => {
+        const price = Number(document.getElementById('form-price').value);
+        if (!price || price <= 0) {
+          alert('Silakan masukkan harga jual yang valid (minimal Rp 1.000).');
+          document.getElementById('form-price').focus();
+          return;
+        }
+        setStep(3);
+      });
+
+      // Step 3 -> 2
+      document.getElementById('btn-back-3').addEventListener('click', () => setStep(2));
+
+      // Step 3 -> 4
+      document.getElementById('btn-next-3').addEventListener('click', () => {
+        if (!selectedCodLocation || !selectedCodLocation.lat || !selectedCodLocation.lng) {
+          alert('Silakan tentukan titik janjian COD di kampus.');
+          return;
+        }
+        setStep(4);
+      });
+
+      // Step 4 -> 3
+      document.getElementById('btn-back-4').addEventListener('click', () => setStep(3));
+
+      // Isi Data Ringkasan
+      function populateSummary() {
+        const title = document.getElementById('form-title').value.trim();
+        const price = Number(document.getElementById('form-price').value);
+        const origPrice = Number(document.getElementById('form-original-price').value);
+        const cond = document.getElementById('form-condition').value;
+        const faculty = document.getElementById('form-faculty').value;
+        const desc = document.getElementById('form-desc').value.trim();
+        const photoRadio = document.querySelector('input[name="photo_preset"]:checked');
+        const photoSrc = photoRadio ? photoRadio.value : 'assets/img/products/prd-001-1.jpg';
+
+        document.getElementById('summary-img').src = `../${photoSrc}`;
+        document.getElementById('summary-title').textContent = title;
+        document.getElementById('summary-condition').textContent = cond;
+        document.getElementById('summary-faculty').textContent = faculty;
+        document.getElementById('summary-price').textContent = 'Rp ' + price.toLocaleString('id-ID');
+        document.getElementById('summary-orig-price').textContent = origPrice ? 'Rp ' + origPrice.toLocaleString('id-ID') : '';
+        document.getElementById('summary-desc').textContent = desc;
+
+        document.getElementById('summary-cod-spot').textContent = selectedCodLocation.spotName;
+        document.getElementById('summary-cod-campus').textContent = `${selectedCodLocation.campusName} · Koordinat: ${selectedCodLocation.lat}, ${selectedCodLocation.lng}`;
+      }
+
+      // Submit Form Akhir
+      document.getElementById('sell-form').addEventListener('submit', (e) => {
+        e.preventDefault();
+        const user = getCurrentUser();
+        const price = Number(document.getElementById('form-price').value);
+        const origPrice = Number(document.getElementById('form-original-price').value) || Math.round(price * 1.4);
+        const photoRadio = document.querySelector('input[name="photo_preset"]:checked');
+        const photoSrc = photoRadio ? photoRadio.value : 'assets/img/products/prd-001-1.jpg';
+
+        const categorySelect = document.getElementById('form-category');
+        const categoryVal = categorySelect.value;
+        const categoryLabel = categorySelect.options[categorySelect.selectedIndex].text;
+
+        const newProduct = {
+          title: document.getElementById('form-title').value.trim(),
+          category: categoryVal,
+          categoryLabel: categoryLabel,
+          faculty: document.getElementById('form-faculty').value,
+          price: price,
+          originalPrice: origPrice,
+          condition: document.getElementById('form-condition').value,
+          conditionBadge: document.getElementById('form-condition').value,
+          description: document.getElementById('form-desc').value.trim(),
+          seller: {
+            name: user.name,
+            faculty: user.faculty,
+            isVerified: true,
+            activeItems: 1,
+            avatar: user.avatar || 'ZP',
+            phone: user.phone || '6281234567890'
+          },
+          codLocation: {
+            campus: selectedCodLocation.campus,
+            campusName: selectedCodLocation.campusName,
+            spotId: selectedCodLocation.spotId,
+            lat: selectedCodLocation.lat,
+            lng: selectedCodLocation.lng,
+            spotName: selectedCodLocation.spotName
+          },
+          images: [photoSrc],
+          colors: ['#2A2A2A'],
+          sizes: [],
+          featured: false
+        };
+
+        const saved = addProduct(newProduct);
+        showToast('🎉 Iklan berhasil diterbitkan!');
+        setTimeout(() => {
+          window.location.href = `detail.html?id=${saved.id}`;
+        }, 900);
+      });
+    }
+  </script>
+</body>
+</html>

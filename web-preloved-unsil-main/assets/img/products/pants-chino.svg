@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 160 160" width="160" height="160">
+  <path d="M 45 30 L 115 30 L 115 42 L 105 135 L 85 135 L 80 65 L 75 135 L 55 135 L 45 42 Z" fill="#3D4043" stroke="#2A2A2A" stroke-width="3.5" stroke-linejoin="round"/>
+  <!-- Waistband & belt loops -->
+  <line x1="45" y1="40" x2="115" y2="40" stroke="#2A2A2A" stroke-width="2.5"/>
+  <rect x="76" y="32" width="8" height="6" rx="1" fill="#C9F26B" stroke="#2A2A2A" stroke-width="1.5"/>
+  <!-- Pockets -->
+  <line x1="50" y1="42" x2="60" y2="58" stroke="#2A2A2A" stroke-width="2.5"/>
+  <line x1="110" y1="42" x2="100" y2="58" stroke="#2A2A2A" stroke-width="2.5"/>
+</svg>

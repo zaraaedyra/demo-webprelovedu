@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 160 160" width="160" height="160">
+  <rect x="35" y="25" width="90" height="110" rx="6" fill="#F4EBD9" stroke="#2A2A2A" stroke-width="3"/>
+  <rect x="30" y="20" width="90" height="112" rx="6" fill="#0B2B66" stroke="#2A2A2A" stroke-width="3.5"/>
+  <rect x="30" y="20" width="14" height="112" rx="4" fill="#C9F26B" stroke="#2A2A2A" stroke-width="2.5"/>
+  <text x="80" y="70" font-family="serif" font-size="18" font-weight="bold" fill="#FFF" text-anchor="middle">OXFORD</text>
+  <rect x="50" y="80" width="60" height="6" rx="2" fill="#E9C6EA"/>
+</svg>

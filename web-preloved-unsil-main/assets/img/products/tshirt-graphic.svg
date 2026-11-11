@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 160 160" width="160" height="160">
+  <path d="M 52 35 L 20 62 L 35 78 L 48 65 L 48 130 L 112 130 L 112 65 L 125 78 L 140 62 L 108 35 Q 80 48 52 35 Z" fill="#2A2A2A" stroke="#2A2A2A" stroke-width="3.5" stroke-linejoin="round"/>
+  <circle cx="80" cy="80" r="18" fill="#E9C6EA" stroke="#C9F26B" stroke-width="3"/>
+  <text x="80" y="85" font-family="serif" font-size="12" font-weight="900" fill="#2A2A2A" text-anchor="middle">LIVE</text>
+</svg>

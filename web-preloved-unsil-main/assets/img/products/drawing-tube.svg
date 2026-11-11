@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 160 160" width="160" height="160">
+  <g transform="rotate(35 80 80)">
+    <!-- Tube Body -->
+    <rect x="70" y="15" width="20" height="130" rx="8" fill="#2A2A2A" stroke="#2A2A2A" stroke-width="3"/>
+    <!-- Lid and rings -->
+    <rect x="68" y="15" width="24" height="24" rx="4" fill="#C9F26B" stroke="#2A2A2A" stroke-width="2.5"/>
+    <rect x="68" y="48" width="24" height="6" rx="2" fill="#E9C6EA" stroke="#2A2A2A" stroke-width="2"/>
+    <rect x="68" y="115" width="24" height="6" rx="2" fill="#E9C6EA" stroke="#2A2A2A" stroke-width="2"/>
+    <!-- Strap -->
+    <path d="M 68 51 C 45 75 45 95 68 118" stroke="#FFFFFF" stroke-width="3" fill="none" stroke-linecap="round"/>
+  </g>
+</svg>

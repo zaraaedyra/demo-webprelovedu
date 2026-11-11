@@ -1,0 +1,917 @@
+/* PRELOVEDU — Reusable Components (components.css) */
+
+/* ==========================================================
+   1. TOMBOL (BUTTONS)
+   ========================================================== */
+.btn-pill {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1.75rem;
+  border-radius: var(--radius-pill);
+  font-weight: 700;
+  font-size: 0.95rem;
+  border: var(--border-thick);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  text-decoration: none;
+  min-height: 48px;
+  line-height: 1;
+}
+
+.btn-pill-lime {
+  background-color: var(--lime);
+  color: var(--ink);
+  box-shadow: var(--shadow-flat);
+}
+
+.btn-pill-lime:hover, .btn-pill-lime:focus-visible {
+  background-color: var(--lime-hover);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-flat-hover);
+}
+
+.btn-pill-lime:active {
+  transform: translateY(1px);
+  box-shadow: 0 1px 0 var(--ink);
+}
+
+.btn-pill-ink {
+  background-color: var(--ink);
+  color: var(--white);
+  box-shadow: 0 3px 0 rgba(0, 0, 0, 0.2);
+}
+
+.btn-pill-ink:hover {
+  background-color: var(--ink-light);
+  transform: translateY(-2px);
+  color: var(--white);
+}
+
+.btn-pill-outline {
+  background-color: var(--white);
+  color: var(--ink);
+  box-shadow: var(--shadow-flat);
+}
+
+.btn-pill-outline:hover {
+  background-color: #f8f8f8;
+  transform: translateY(-2px);
+}
+
+/* Tombol Ikon Bulat (Round Icon Button) */
+.btn-circle {
+  width: 44px;
+  height: 44px;
+  min-width: 44px;
+  border-radius: var(--radius-circle);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: var(--border-thick);
+  background-color: var(--ink);
+  color: var(--white);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  position: relative;
+}
+
+.btn-circle:hover {
+  transform: scale(1.06);
+  background-color: var(--ink-light);
+}
+
+.btn-circle:active {
+  transform: scale(0.96);
+}
+
+.btn-circle-white {
+  background-color: var(--white);
+  color: var(--ink);
+}
+
+.btn-circle-white:hover {
+  background-color: #f3f3f3;
+  color: var(--ink);
+}
+
+.btn-circle-white.is-active, .btn-circle-white.favorited {
+  color: var(--heart-red);
+  background-color: var(--heart-red-soft);
+  border-color: var(--heart-red);
+}
+
+.btn-circle-white.favorited svg {
+  fill: var(--heart-red);
+}
+
+/* Titik Indikator Notifikasi */
+.btn-circle .badge-dot {
+  position: absolute;
+  top: 1px;
+  right: 1px;
+  width: 12px;
+  height: 12px;
+  background-color: var(--heart-red);
+  border: 2px solid var(--white);
+  border-radius: var(--radius-circle);
+}
+
+/* ==========================================================
+   2. FORM & INPUTS (Pill Styled)
+   ========================================================== */
+.input-pill {
+  width: 100%;
+  padding: 0.75rem 1.25rem;
+  border-radius: var(--radius-pill);
+  border: var(--border-thick);
+  background-color: var(--white);
+  color: var(--ink);
+  font-size: 0.95rem;
+  font-family: var(--font-sans);
+  outline: none;
+  transition: all var(--transition-fast);
+}
+
+.input-pill:focus {
+  box-shadow: 0 0 0 3px rgba(42, 42, 42, 0.15);
+  background-color: #fff;
+}
+
+.select-pill {
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%232A2A2A' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 1.2rem center;
+  padding-right: 2.75rem;
+  cursor: pointer;
+}
+
+/* Search Bar Wrapper */
+.search-bar-wrap {
+  position: relative;
+  display: flex;
+  align-items: center;
+  width: 100%;
+}
+
+.search-bar-wrap .search-icon {
+  position: absolute;
+  left: 1.15rem;
+  color: var(--ink-muted);
+  pointer-events: none;
+  display: flex;
+  align-items: center;
+}
+
+.search-bar-wrap input {
+  padding-left: 3rem;
+  padding-right: 1.25rem;
+  height: 52px;
+  font-size: 1rem;
+}
+
+/* ==========================================================
+   3. BADGE & STATUS PILL
+   ========================================================== */
+.badge-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.3rem 0.85rem;
+  border-radius: var(--radius-pill);
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  border: 1.5px solid var(--ink);
+  white-space: nowrap;
+}
+
+.badge-pill-lime {
+  background-color: var(--lime);
+  color: var(--ink);
+}
+
+.badge-pill-lilac {
+  background-color: var(--lilac);
+  color: var(--ink);
+}
+
+.badge-pill-ink {
+  background-color: var(--ink);
+  color: var(--white);
+}
+
+.badge-verified {
+  background-color: #d1fae5;
+  color: #065f46;
+  border-color: #065f46;
+}
+
+/* ==========================================================
+   4. CHIP KATEGORI (Circular + Label)
+   ========================================================== */
+/* ==========================================================
+   4. CHIP KATEGORI (5 Kolom Grid Simetris)
+   ========================================================== */
+.category-chips-grid,
+.category-chips-scroll {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  width: 100%;
+  gap: 0.75rem;
+  padding: 0.5rem 0 0.75rem 0;
+  justify-items: center;
+  align-items: start;
+}
+
+.category-chips-scroll::-webkit-scrollbar,
+.category-chips-grid::-webkit-scrollbar {
+  display: none;
+}
+
+.category-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 0.5rem;
+  cursor: pointer;
+  text-decoration: none;
+  background: none;
+  border: none;
+  width: 100%;
+  max-width: 120px;
+  padding: 0;
+  transition: transform var(--transition-fast);
+}
+
+.category-item:hover {
+  transform: translateY(-2px);
+}
+
+.category-circle {
+  width: 62px;
+  height: 62px;
+  border-radius: var(--radius-circle);
+  background-color: var(--white);
+  border: var(--border-thick);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--ink);
+  transition: background-color var(--transition-fast), border-color var(--transition-fast);
+  box-shadow: 0 3px 0 var(--ink);
+  flex-shrink: 0;
+}
+
+.category-circle svg {
+  width: 24px;
+  height: 24px;
+  display: block;
+}
+
+/* Item aktif & hover: HANYA ganti warna/outline, JANGAN membesarkan ukuran */
+.category-item.active .category-circle {
+  background-color: var(--lilac);
+  border-color: var(--ink);
+  box-shadow: 0 3px 0 var(--ink);
+}
+
+.category-item:hover .category-circle {
+  background-color: var(--lilac-hover);
+}
+
+/* Label: rata tengah, boleh turun 2 baris, tinggi area label sama */
+.category-label {
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: var(--ink);
+  text-align: center;
+  line-height: 1.25;
+  min-height: 2.9em;
+  display: inline-block;
+  vertical-align: top;
+  padding: 0.2rem 0.55rem;
+  border-radius: var(--radius-pill);
+  border: 1.5px solid transparent;
+  width: fit-content;
+  max-width: 100%;
+  box-sizing: border-box;
+  word-break: normal;
+  overflow-wrap: break-word;
+  transition: background-color var(--transition-fast), border-color var(--transition-fast);
+}
+
+.category-item.active .category-label {
+  background-color: var(--lilac);
+  border-color: var(--ink);
+  color: var(--ink);
+  font-weight: 800;
+  box-shadow: 0 2px 0 var(--ink);
+}
+
+/* Responsif Mobile (375px): 5 kolom tetap muat, ikon dikecilkan, tanpa scroll horizontal */
+@media (max-width: 480px) {
+  .category-chips-grid,
+  .category-chips-scroll {
+    gap: 0.25rem;
+    padding: 0.25rem 0 0.5rem 0;
+  }
+
+  .category-item {
+    gap: 0.35rem;
+    max-width: none;
+  }
+
+  .category-circle {
+    width: 46px;
+    height: 46px;
+  }
+
+  .category-circle svg {
+    width: 20px;
+    height: 20px;
+  }
+
+  .category-label {
+    font-size: 0.68rem;
+    line-height: 1.15;
+    min-height: 2.7em;
+    padding: 0.15rem 0.3rem;
+  }
+}
+
+/* Quick Filter Pills (Kondisi & Urutan) */
+.filter-pills-row {
+  display: flex;
+  gap: 0.5rem;
+  overflow-x: auto;
+  padding-bottom: 0.25rem;
+}
+
+.filter-pills-row::-webkit-scrollbar {
+  display: none;
+}
+
+.chip-filter {
+  padding: 0.45rem 1rem;
+  border-radius: var(--radius-pill);
+  border: var(--border-thick);
+  background-color: var(--white);
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: var(--ink);
+  cursor: pointer;
+  white-space: nowrap;
+  transition: all var(--transition-fast);
+}
+
+.chip-filter:hover {
+  background-color: #f7f7f7;
+}
+
+.chip-filter.active {
+  background-color: var(--ink);
+  color: var(--white);
+}
+
+/* ==========================================================
+   5. KARTU PRODUK (PRODUCT CARD)
+   ========================================================== */
+.product-card {
+  background-color: var(--white);
+  border-radius: var(--radius-card);
+  border: var(--border-thick);
+  box-shadow: var(--shadow-flat);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  transition: all var(--transition-fast);
+  position: relative;
+  cursor: pointer;
+}
+
+.product-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 7px 0 var(--ink);
+}
+
+.product-thumb-box {
+  background-color: var(--lilac);
+  border-bottom: var(--border-thick);
+  position: relative;
+  height: 200px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1.25rem;
+  overflow: hidden;
+}
+
+.product-thumb-box.bg-lime {
+  background-color: #ddf799;
+}
+
+.product-thumb-box.bg-gray {
+  background-color: #ecece9;
+}
+
+.product-thumb-box img {
+  max-height: 140px;
+  max-width: 90%;
+  object-fit: contain;
+  transition: transform var(--transition-smooth);
+  filter: drop-shadow(0 12px 10px rgba(42, 42, 42, 0.22));
+  z-index: 2;
+}
+
+.product-card:hover .product-thumb-box img {
+  transform: scale(1.08) translateY(-3px);
+}
+
+/* Bayangan elips di bawah gambar cutout */
+.product-thumb-shadow {
+  position: absolute;
+  bottom: 14px;
+  width: 60%;
+  height: 18px;
+  background: radial-gradient(ellipse at center, rgba(42, 42, 42, 0.25) 0%, rgba(42, 42, 42, 0) 70%);
+  border-radius: 50%;
+  z-index: 1;
+}
+
+/* Tombol Favorit di atas thumbnail */
+.product-card .btn-favorite {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  z-index: 3;
+}
+
+.product-card .badge-status {
+  position: absolute;
+  top: 12px;
+  left: 12px;
+  z-index: 3;
+}
+
+.product-card .badge-condition {
+  position: absolute;
+  bottom: 12px;
+  left: 12px;
+  z-index: 3;
+}
+
+.product-card.is-sold {
+  opacity: 0.85;
+}
+
+/* Konten Kartu */
+.product-card-body {
+  padding: 1.25rem;
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+  justify-content: space-between;
+}
+
+.product-faculty-tag {
+  font-size: 0.72rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--ink-muted);
+  margin-bottom: 0.35rem;
+}
+
+.product-title {
+  font-family: var(--font-serif);
+  font-size: 1.15rem;
+  font-weight: 600;
+  color: var(--ink);
+  line-height: 1.3;
+  margin-bottom: 0.4rem;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  min-height: 2.6rem;
+}
+
+.product-seller-info {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-size: 0.8rem;
+  color: var(--ink-light);
+  margin-bottom: 0.75rem;
+}
+
+.product-card-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: auto;
+  padding-top: 0.5rem;
+}
+
+.product-price-val {
+  font-family: var(--font-serif);
+  font-size: 1.35rem;
+  font-weight: 700;
+  color: var(--ink);
+  letter-spacing: -0.01em;
+}
+
+/* ==========================================================
+   6. HEADER (DESKTOP) & TOP BAR (MOBILE)
+   ========================================================== */
+.top-nav-bar {
+  background-color: var(--paper);
+  border-bottom: var(--border-thick);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  padding: 0.85rem 0;
+}
+
+.top-nav-content {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.5rem;
+}
+
+.user-greeting {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.avatar-circle {
+  width: 44px;
+  height: 44px;
+  border-radius: var(--radius-circle);
+  border: var(--border-thick);
+  background-color: var(--lilac);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 800;
+  color: var(--ink);
+  overflow: hidden;
+}
+
+.user-greeting-text .salutation {
+  font-size: 0.75rem;
+  color: var(--ink-muted);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  display: block;
+}
+
+.user-greeting-text .user-name {
+  font-family: var(--font-serif);
+  font-size: 1.15rem;
+  font-weight: 700;
+  line-height: 1.1;
+}
+
+/* ==========================================================
+   7. BOTTOM NAVIGATION (MOBILE)
+   ========================================================== */
+.bottom-nav-wrap {
+  position: fixed;
+  bottom: 14px;
+  left: 0;
+  right: 0;
+  z-index: 999;
+  display: flex;
+  justify-content: center;
+  padding: 0 1rem;
+  pointer-events: none;
+}
+
+@media (min-width: 992px) {
+  .bottom-nav-wrap {
+    display: none;
+  }
+}
+
+.bottom-nav-bar {
+  pointer-events: auto;
+  background-color: var(--ink);
+  border: var(--border-thick);
+  border-radius: var(--radius-pill);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+  display: flex;
+  align-items: center;
+  padding: 0.45rem 0.65rem;
+  gap: 0.4rem;
+  max-width: 420px;
+  width: 100%;
+  justify-content: space-around;
+}
+
+.nav-tab-item {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 58px;
+  height: 52px;
+  color: var(--white);
+  text-decoration: none;
+  border-radius: var(--radius-pill);
+  transition: all var(--transition-fast);
+  z-index: 1;
+}
+
+/* Lingkaran Lilac Besar untuk Tab Aktif sesuai spec referensi */
+.nav-tab-item.active {
+  color: var(--ink);
+}
+
+.nav-tab-item.active::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 46px;
+  height: 46px;
+  background-color: var(--lilac);
+  border-radius: var(--radius-circle);
+  z-index: -1;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+  transition: all var(--transition-fast);
+}
+
+.nav-tab-item svg {
+  width: 22px;
+  height: 22px;
+}
+
+.nav-tab-label {
+  font-size: 0.65rem;
+  font-weight: 700;
+  margin-top: 2px;
+}
+
+/* Tombol Jual di tengah (+) */
+.nav-tab-sell {
+  background-color: var(--lime);
+  color: var(--ink);
+  border: 2px solid var(--ink);
+  width: 48px;
+  height: 48px;
+  border-radius: var(--radius-circle);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 3px 0 var(--ink);
+  transition: transform var(--transition-fast);
+}
+
+.nav-tab-sell:hover {
+  transform: scale(1.08);
+}
+
+/* ==========================================================
+   8. TOAST NOTIFICATION
+   ========================================================== */
+.toast-container {
+  position: fixed;
+  bottom: 90px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 1050;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  pointer-events: none;
+  width: 90%;
+  max-width: 400px;
+}
+
+@media (min-width: 992px) {
+  .toast-container {
+    bottom: 24px;
+    right: 24px;
+    left: auto;
+    transform: none;
+  }
+}
+
+.toast-item {
+  pointer-events: auto;
+  background-color: var(--ink);
+  color: var(--white);
+  border: var(--border-thick);
+  border-radius: var(--radius-pill);
+  padding: 0.75rem 1.25rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  font-size: 0.88rem;
+  font-weight: 600;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.25);
+  animation: toastSlideUp 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes toastSlideUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ==========================================================
+   9. SKELETON & EMPTY STATE
+   ========================================================== */
+.skeleton-box {
+  background: linear-gradient(90deg, #e3e3e0 25%, #f1f1ee 50%, #e3e3e0 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+  border-radius: var(--radius-sm);
+}
+
+@keyframes shimmer {
+  0% { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+
+.empty-state-card {
+  background-color: var(--white);
+  border: var(--border-thick);
+  border-radius: var(--radius-card);
+  padding: 3rem 1.5rem;
+  text-align: center;
+  box-shadow: var(--shadow-flat);
+  max-width: 480px;
+  margin: 2rem auto;
+}
+
+.empty-state-icon {
+  width: 72px;
+  height: 72px;
+  border-radius: var(--radius-circle);
+  background-color: var(--lilac);
+  border: var(--border-thick);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 1.25rem auto;
+}
+
+/* ==========================================================
+   10. PETA COD INTERAKTIF & LEAFLET CUSTOM STYLING
+   ========================================================== */
+.map-wrapper {
+  border: var(--border-thick);
+  border-radius: var(--radius-inner);
+  overflow: hidden;
+  box-shadow: var(--shadow-flat);
+  position: relative;
+  background-color: var(--paper);
+}
+
+.map-container {
+  height: 320px;
+  width: 100%;
+  z-index: 1;
+}
+
+.custom-map-pin-wrapper {
+  background: transparent !important;
+  border: none !important;
+}
+
+.custom-map-pin {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  transition: transform var(--transition-fast);
+  cursor: pointer;
+}
+
+.custom-map-pin:hover {
+  transform: translateY(-4px) scale(1.08);
+}
+
+.custom-map-pin.is-selected {
+  transform: translateY(-4px) scale(1.12);
+  z-index: 999;
+}
+
+/* Custom Popup Leaflet Bergaya PRELOVEDU Playful-Editorial */
+.leaflet-popup.prelovedu-leaflet-popup .leaflet-popup-content-wrapper {
+  background: var(--white);
+  border: var(--border-thick);
+  border-radius: 14px;
+  box-shadow: var(--shadow-flat);
+  padding: 0.5rem 0.75rem;
+  font-family: var(--font-sans);
+}
+
+.leaflet-popup.prelovedu-leaflet-popup .leaflet-popup-content {
+  margin: 0.35rem 0.45rem;
+  line-height: 1.35;
+}
+
+.leaflet-popup.prelovedu-leaflet-popup .leaflet-popup-tip-container {
+  margin-top: -1px;
+}
+
+.leaflet-popup.prelovedu-leaflet-popup .leaflet-popup-tip {
+  background: var(--white);
+  box-shadow: none;
+  border-bottom: 2.5px solid var(--ink);
+  border-right: 2.5px solid var(--ink);
+}
+
+.cod-map-popup .popup-tag {
+  display: inline-block;
+  font-size: 0.7rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  padding: 0.15rem 0.5rem;
+  border-radius: var(--radius-pill);
+  border: 1.5px solid var(--ink);
+  margin-bottom: 0.3rem;
+}
+
+.cod-map-popup .popup-tag.badge-safe {
+  background-color: var(--lime);
+  color: var(--ink);
+}
+
+.cod-map-popup .popup-tag.badge-custom {
+  background-color: var(--lilac);
+  color: var(--ink);
+}
+
+.cod-map-popup .popup-tag.badge-rejected {
+  background-color: #ffd8d6;
+  color: var(--heart-red);
+}
+
+.cod-map-popup .popup-title {
+  font-weight: 800;
+  font-size: 0.92rem;
+  color: var(--ink);
+  margin-bottom: 0.15rem;
+}
+
+.cod-map-popup .popup-sub {
+  font-size: 0.78rem;
+  color: var(--ink-muted);
+  margin-bottom: 0.25rem;
+}
+
+.cod-map-popup .popup-coords {
+  font-size: 0.72rem;
+  font-family: monospace;
+  color: var(--ink-light);
+  background: var(--paper);
+  padding: 0.15rem 0.4rem;
+  border-radius: 6px;
+  display: inline-block;
+}
+
+/* Leaflet Zoom Controls Custom */
+.leaflet-bar {
+  border: none !important;
+  box-shadow: none !important;
+}
+
+.leaflet-bar a {
+  background-color: var(--white) !important;
+  color: var(--ink) !important;
+  border: 2px solid var(--ink) !important;
+  border-radius: 10px !important;
+  box-shadow: 0 3px 0 var(--ink) !important;
+  margin-bottom: 6px !important;
+  font-weight: 800 !important;
+  font-size: 1.1rem !important;
+  line-height: 28px !important;
+  width: 34px !important;
+  height: 34px !important;
+  transition: all var(--transition-fast) !important;
+}
+
+.leaflet-bar a:hover {
+  background-color: var(--lime) !important;
+  transform: translateY(-1px);
+}
+

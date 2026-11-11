@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 160 160" width="160" height="160">
+  <!-- Body Navy, Sleeves White -->
+  <path d="M 48 38 L 18 85 L 34 92 L 48 65 L 48 132 L 112 132 L 112 65 L 126 92 L 142 85 L 112 38 Z" fill="#1A2A44" stroke="#2A2A2A" stroke-width="3.5" stroke-linejoin="round"/>
+  <path d="M 48 38 L 18 85 L 34 92 L 48 65 Z" fill="#FFFFFF" stroke="#2A2A2A" stroke-width="3"/>
+  <path d="M 112 38 L 142 85 L 126 92 L 112 65 Z" fill="#FFFFFF" stroke="#2A2A2A" stroke-width="3"/>
+  <line x1="80" y1="38" x2="80" y2="132" stroke="#2A2A2A" stroke-width="3"/>
+  <!-- Big letter 'S' patch -->
+  <text x="64" y="75" font-family="serif" font-size="24" font-weight="900" fill="#C9F26B">U</text>
+  <!-- Buttons -->
+  <circle cx="80" cy="65" r="3" fill="#FFF"/>
+  <circle cx="80" cy="85" r="3" fill="#FFF"/>
+  <circle cx="80" cy="105" r="3" fill="#FFF"/>
+</svg>

@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0" />
+  <title>Profil Saya — PRELOVEDU</title>
+
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <link rel="stylesheet" href="../assets/css/tokens.css" />
+  <link rel="stylesheet" href="../assets/css/base.css" />
+  <link rel="stylesheet" href="../assets/css/components.css" />
+  <link rel="stylesheet" href="../assets/css/pages.css" />
+  <link rel="stylesheet" href="../assets/css/refine.css" />
+</head>
+<body>
+
+  <!-- Top Header Mount -->
+  <div id="header-mount"></div>
+
+  <main class="app-container" style="padding-top: 1.5rem; max-width: 680px;">
+    <!-- Kartu Profil Utama -->
+    <div class="card p-4 mb-4" style="border: var(--border-thick); border-radius: var(--radius-card); background: #fff; box-shadow: var(--shadow-flat);">
+      <div class="d-flex align-items-center gap-3 mb-3">
+        <div class="avatar-circle" style="width: 70px; height: 70px; font-size: 1.5rem; background: var(--lilac);">
+          ZP
+        </div>
+        <div>
+          <h1 class="hero-title" style="font-size: 1.5rem; margin-bottom: 0.2rem;" id="user-display-name">
+            Zahra Putri
+          </h1>
+          <div class="d-flex align-items-center gap-2">
+            <span class="badge-pill badge-verified" id="badge-ktm-status">✓ KTM Terverifikasi</span>
+            <span style="font-size: 0.8rem; color: var(--ink-muted);" id="user-display-email">zahra@student.ac.id</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="pt-3" style="border-top: 1.5px dashed rgba(42,42,42,0.15); font-size: 0.9rem;">
+        <div class="d-flex justify-content-between py-1">
+          <span class="text-muted">Fakultas / Prodi:</span>
+          <strong>Informatika (2024)</strong>
+        </div>
+        <div class="d-flex justify-content-between py-1">
+          <span class="text-muted">Nomor WhatsApp COD:</span>
+          <strong>+62 812-3456-7890</strong>
+        </div>
+      </div>
+    </div>
+
+    <!-- Panel Verifikasi KTM Mahasiswa -->
+    <div class="card p-4 mb-4" style="border: var(--border-thick); border-radius: var(--radius-card); background: #fff; box-shadow: var(--shadow-flat);">
+      <div class="d-flex justify-content-between align-items-center mb-2">
+        <h2 style="font-family: var(--font-serif); font-size: 1.25rem; margin-bottom: 0;">Status Verifikasi Mahasiswa</h2>
+        <span class="badge-pill badge-pill-lime">Aktif</span>
+      </div>
+      <p style="font-size: 0.85rem; color: var(--ink-light); margin-bottom: 1rem;">
+        Hanya mahasiswa dengan email <code>.ac.id</code> atau foto KTM yang disetujui yang dapat memasang iklan dan melakukan penawaran harga.
+      </p>
+      
+      <div class="p-3 d-flex align-items-center justify-content-between" style="background: var(--paper); border-radius: var(--radius-inner); border: 1.5px solid rgba(42,42,42,0.1);">
+        <div class="d-flex align-items-center gap-2">
+          <span>🪪</span>
+          <span style="font-size: 0.85rem; font-weight: 700;">Kartu Tanda Mahasiswa (KTM)</span>
+        </div>
+        <span class="badge-pill badge-verified">Terverifikasi</span>
+      </div>
+    </div>
+
+    <!-- Menu Tautan Cepat -->
+    <div class="d-flex flex-column gap-2 mb-5">
+      <a href="tawaran.html" class="btn-pill btn-pill-outline justify-content-between">
+        <span>📦 Daftar Tawaran Saya</span>
+        <span>→</span>
+      </a>
+      <a href="favorit.html" class="btn-pill btn-pill-outline justify-content-between">
+        <span>❤️ Barang yang Disukai</span>
+        <span>→</span>
+      </a>
+      <a href="#" data-logout class="btn-pill btn-pill-outline justify-content-between" style="color: var(--heart-red); border-color: var(--heart-red);">
+        <span>Ganti Akun / Keluar</span>
+        <span>🚪</span>
+      </a>
+    </div>
+  </main>
+
+  <!-- Bottom Nav Mount -->
+  <div id="bottom-nav-mount"></div>
+
+  <script type="module">
+    import { renderHeader, renderBottomNav } from '../assets/js/components/navbar.js';
+    import { renderFavicon } from '../assets/js/components/logo.js';
+    import { getCurrentUser } from '../assets/js/services/storage.js';
+
+    document.addEventListener('DOMContentLoaded', () => {
+      // Favicon
+      const linkFavicon = document.createElement('link');
+      linkFavicon.rel = 'icon';
+      linkFavicon.type = 'image/svg+xml';
+      linkFavicon.href = renderFavicon();
+      document.head.appendChild(linkFavicon);
+
+      // Render Navs
+      document.getElementById('header-mount').innerHTML = renderHeader('profil', '../');
+      document.getElementById('bottom-nav-mount').innerHTML = renderBottomNav('profil', '../');
+
+      const user = getCurrentUser();
+      document.getElementById('user-display-name').textContent = user.name;
+      document.getElementById('user-display-email').textContent = user.email;
+    });
+  </script>
+</body>
+</html>

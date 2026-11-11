@@ -1,0 +1,386 @@
+/* PRELOVEDU — Page Layouts & Specific Styles (pages.css) */
+
+/* ==========================================================
+   1. HERO BANNER "HOT DEALS" (Playful-Editorial)
+   ========================================================== */
+.hero-banner {
+  background-color: var(--lime);
+  border: var(--border-thick);
+  border-radius: var(--radius-card);
+  box-shadow: var(--shadow-flat);
+  position: relative;
+  overflow: hidden;
+  margin-top: 1.25rem;
+  margin-bottom: var(--spacing-section);
+  padding: 2rem 1.5rem;
+}
+
+@media (min-width: 768px) {
+  .hero-banner {
+    padding: 3rem 2.5rem;
+    min-height: 280px;
+  }
+}
+
+/* Dekorasi SVG squiggly organik di latar belakang */
+.hero-deco-squiggly {
+  position: absolute;
+  top: -20px;
+  right: -20px;
+  width: 320px;
+  height: 320px;
+  pointer-events: none;
+  opacity: 0.65;
+  z-index: 0;
+}
+
+.hero-banner-content {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 1.5rem;
+}
+
+@media (min-width: 768px) {
+  .hero-banner-content {
+    flex-direction: row;
+    align-items: center;
+  }
+}
+
+.hero-text-col {
+  max-width: 520px;
+}
+
+.hero-pill-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  background-color: var(--white);
+  border: var(--border-thick);
+  border-radius: var(--radius-pill);
+  padding: 0.35rem 0.9rem;
+  font-size: 0.82rem;
+  font-weight: 800;
+  color: var(--ink);
+  margin-bottom: 0.85rem;
+  box-shadow: 0 2px 0 var(--ink);
+}
+
+.hero-title {
+  font-size: 1.85rem;
+  font-weight: 700;
+  line-height: 1.2;
+  color: var(--ink);
+  margin-bottom: 0.75rem;
+  letter-spacing: -0.02em;
+}
+
+@media (min-width: 768px) {
+  .hero-title {
+    font-size: 2.35rem;
+  }
+}
+
+.hero-subtitle {
+  font-size: 0.95rem;
+  color: var(--ink-light);
+  line-height: 1.45;
+  margin-bottom: 1.35rem;
+}
+
+.hero-image-col {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.hero-featured-img-wrap {
+  position: relative;
+  width: 220px;
+  height: 180px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+@media (min-width: 768px) {
+  .hero-featured-img-wrap {
+    width: 280px;
+    height: 220px;
+  }
+}
+
+.hero-featured-img {
+  max-width: 90%;
+  max-height: 160px;
+  object-fit: contain;
+  filter: drop-shadow(0 15px 12px rgba(42, 42, 42, 0.28));
+  z-index: 2;
+  animation: floatSoft 4s ease-in-out infinite alternate;
+}
+
+@keyframes floatSoft {
+  0% { transform: translateY(0px) rotate(-1deg); }
+  100% { transform: translateY(-8px) rotate(2deg); }
+}
+
+.hero-featured-shadow {
+  position: absolute;
+  bottom: 8px;
+  width: 70%;
+  height: 20px;
+  background: radial-gradient(ellipse at center, rgba(42, 42, 42, 0.3) 0%, rgba(42, 42, 42, 0) 70%);
+  border-radius: 50%;
+  z-index: 1;
+}
+
+/* Dots Indikator Carousel Hero */
+.carousel-dots {
+  display: flex;
+  gap: 0.5rem;
+  justify-content: center;
+  margin-top: 1rem;
+}
+
+.carousel-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: var(--radius-circle);
+  border: 1.5px solid var(--ink);
+  background-color: transparent;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.carousel-dot.active {
+  width: 24px;
+  border-radius: var(--radius-pill);
+  background-color: var(--ink);
+}
+
+/* ==========================================================
+   2. SEARCH & FACULTY FILTER BAR
+   ========================================================== */
+.search-filter-section {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  margin-bottom: 1.75rem;
+}
+
+@media (min-width: 768px) {
+  .search-filter-section {
+    flex-direction: row;
+    align-items: center;
+  }
+}
+
+.faculty-dropdown-wrap {
+  min-width: 220px;
+}
+
+/* ==========================================================
+   3. SECTION HEADERS
+   ========================================================== */
+.section-header {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  margin-bottom: 1rem;
+  padding: 0 0.25rem;
+}
+
+.section-title {
+  font-family: var(--font-serif);
+  font-size: 1.45rem;
+  font-weight: 700;
+  color: var(--ink);
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.section-link {
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: var(--ink);
+  text-decoration: underline;
+  text-underline-offset: 4px;
+  transition: color var(--transition-fast);
+}
+
+.section-link:hover {
+  color: var(--ink-light);
+}
+
+/* Spacing Vertikal Konsisten Antar Bagian */
+.category-section {
+  margin-bottom: var(--spacing-section);
+}
+
+.featured-section {
+  margin-bottom: var(--spacing-section);
+}
+
+/* ==========================================================
+   4. FEATURED PRODUCTS (HORIZONTAL HERO CARD)
+   ========================================================== */
+.featured-card {
+  background-color: var(--white);
+  border: var(--border-thick);
+  border-radius: var(--radius-card);
+  box-shadow: var(--shadow-flat);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  margin-bottom: 0;
+  transition: transform var(--transition-fast);
+}
+
+@media (min-width: 640px) {
+  .featured-card {
+    flex-direction: row;
+    min-height: 220px;
+  }
+}
+
+.featured-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 6px 0 var(--ink);
+}
+
+.featured-card-media {
+  background-color: var(--lilac);
+  border-bottom: var(--border-thick);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1.5rem;
+  position: relative;
+  min-height: 180px;
+}
+
+@media (min-width: 640px) {
+  .featured-card-media {
+    width: 40%;
+    border-bottom: none;
+    border-right: var(--border-thick);
+  }
+}
+
+.featured-card-media img {
+  max-height: 140px;
+  filter: drop-shadow(0 10px 10px rgba(42, 42, 42, 0.2));
+  z-index: 2;
+}
+
+.featured-card-content {
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  flex-grow: 1;
+}
+
+.color-swatches-row {
+  display: flex;
+  gap: 0.4rem;
+  margin: 0.5rem 0;
+}
+
+.color-swatch-dot {
+  width: 14px;
+  height: 14px;
+  border-radius: var(--radius-circle);
+  border: 1px solid rgba(42, 42, 42, 0.3);
+}
+
+/* ==========================================================
+   5. RESPONSIVE PRODUCT GRID
+   ========================================================== */
+.products-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1rem;
+  margin-bottom: 2.5rem;
+}
+
+@media (max-width: 420px) {
+  .products-grid {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+}
+
+@media (min-width: 768px) {
+  .products-grid {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+  }
+}
+
+@media (min-width: 1100px) {
+  .products-grid {
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1.5rem;
+  }
+}
+
+/* ==========================================================
+   6. PENGINGAT KEAMANAN (SAFETY REMINDER BAR)
+   ========================================================== */
+.safety-banner {
+  background-color: #fff9db;
+  border: var(--border-thick);
+  border-radius: var(--radius-card);
+  padding: 1rem 1.25rem;
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+  font-size: 0.88rem;
+  font-weight: 600;
+  color: var(--ink);
+  margin-bottom: 2rem;
+  box-shadow: var(--shadow-flat);
+}
+
+.safety-icon {
+  width: 36px;
+  height: 36px;
+  border-radius: var(--radius-circle);
+  background-color: var(--white);
+  border: 2px solid var(--ink);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+/* ==========================================================
+   7. FOOTER INFORMASI
+   ========================================================== */
+.app-footer {
+  background-color: var(--white);
+  border-top: var(--border-thick);
+  padding: 3rem 0;
+  margin-top: 3rem;
+  text-align: center;
+}
+
+.footer-brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  margin-bottom: 0.75rem;
+}
+
+.footer-text {
+  font-size: 0.85rem;
+  color: var(--ink-muted);
+  max-width: 480px;
+  margin: 0 auto 1.5rem auto;
+}

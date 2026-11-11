@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 160 160" width="160" height="160">
+  <path d="M 52 35 L 20 62 L 35 78 L 48 65 L 48 130 L 112 130 L 112 65 L 125 78 L 140 62 L 108 35 Z" fill="#6B1724" stroke="#2A2A2A" stroke-width="3.5" stroke-linejoin="round"/>
+  <!-- Collar -->
+  <path d="M 58 35 L 75 52 L 80 48 L 85 52 L 102 35 Z" fill="#4A1019" stroke="#2A2A2A" stroke-width="2.5"/>
+  <line x1="80" y1="48" x2="80" y2="78" stroke="#2A2A2A" stroke-width="2.5"/>
+  <circle cx="80" cy="58" r="2" fill="#FFF"/>
+  <circle cx="80" cy="68" r="2" fill="#FFF"/>
+</svg>

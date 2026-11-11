@@ -1,0 +1,58 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    
+    // Helper functions
+    function isAuthenticated() {
+      return request.auth != null;
+    }
+    
+    function isOwner(userId) {
+      return isAuthenticated() && request.auth.uid == userId;
+    }
+    
+    function isVerifiedStudent() {
+      return isAuthenticated() && 
+        request.auth.token.email.matches('.*\\.ac\\.id$') &&
+        request.auth.token.email_verified == true;
+    }
+
+    // Profil publik pengguna (nama, jurusan, angkatan, statusVerifikasi)
+    // Nomor WhatsApp TIDAK disimpan di sini
+    match /users/{userId} {
+      allow read: if isAuthenticated();
+      allow write: if isOwner(userId);
+
+      // Kontak privat (nomor WhatsApp) — terisolasi
+      // Hanya pemilik atau lawan transaksi yang punya tawaran berstatus 'diterima'
+      match /private/contact {
+        allow read, write: if isOwner(userId);
+      }
+      
+      // Favorit pribadi
+      match /favorites/{productId} {
+        allow read, write: if isOwner(userId);
+      }
+    }
+
+    // Katalog produk
+    match /products/{productId} {
+      allow read: if true; // Publik dapat melihat katalog
+      allow create: if isVerifiedStudent();
+      allow update, delete: if isAuthenticated() && resource.data.sellerId == request.auth.uid;
+    }
+
+    // Sistem Tawaran (Gerbang Pembuka Kontak)
+    // ID tawaran: {productId}_{buyerId}
+    match /offers/{offerId} {
+      allow read: if isAuthenticated() && 
+        (resource.data.buyerId == request.auth.uid || resource.data.sellerId == request.auth.uid);
+      allow create: if isVerifiedStudent() && 
+        request.resource.data.buyerId == request.auth.uid &&
+        request.resource.data.sellerId != request.auth.uid;
+      allow update: if isAuthenticated() && 
+        (resource.data.buyerId == request.auth.uid || resource.data.sellerId == request.auth.uid);
+      allow delete: if isAuthenticated() && resource.data.buyerId == request.auth.uid;
+    }
+  }
+}

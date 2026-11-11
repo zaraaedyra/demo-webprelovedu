@@ -1,0 +1,11 @@
+.DS_Store
+Thumbs.db
+node_modules/
+config.js
+firebase-config.js
+.env
+.env.*
+*.log
+.firebase/
+.vscode/
+.idea/

@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 160 160" width="160" height="160">
+  <!-- Clip Base -->
+  <rect x="55" y="120" width="50" height="18" rx="6" fill="#2A2A2A" stroke="#2A2A2A" stroke-width="3"/>
+  <!-- Gooseneck -->
+  <path d="M 80 120 C 80 70 110 70 95 45" fill="none" stroke="#2A2A2A" stroke-width="5" stroke-linecap="round"/>
+  <!-- Lamp Head & Glow -->
+  <ellipse cx="85" cy="40" rx="22" ry="12" fill="#FFFFFF" stroke="#2A2A2A" stroke-width="3"/>
+  <path d="M 65 48 L 45 75 L 115 75 L 105 48 Z" fill="#C9F26B" opacity="0.4"/>
+</svg>

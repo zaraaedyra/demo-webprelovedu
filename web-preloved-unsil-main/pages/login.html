@@ -1,0 +1,53 @@
+<!DOCTYPE html><html lang="id"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Masuk — PRELOVEDU</title><link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"><link rel="stylesheet" href="../assets/css/tokens.css"><link rel="stylesheet" href="../assets/css/base.css"><link rel="stylesheet" href="../assets/css/components.css"><link rel="stylesheet" href="../assets/css/pages.css"><link rel="stylesheet" href="../assets/css/refine.css"></head>
+<body><div class="auth-wrap"><div class="auth-card">
+<div id="logo" class="mb-3"></div>
+<h1 style="font-size:1.35rem;font-family:var(--font-serif)">Preloved untuk mahasiswa Unsil</h1>
+<p style="font-size:.88rem;color:var(--ink-muted)">Daftar dengan email <b>@student.unsil.ac.id</b>. Hanya mahasiswa Unsil yang bisa jual dan tawar barang.</p>
+<div class="msg ok" style="margin-bottom:12px"><b>Login cepat (demo)</b><div class="d-flex gap-2 flex-wrap mt-2"><button type="button" class="btn-pill btn-pill-lime" data-q="zahra@student.unsil.ac.id|demo1234">Penjual (Zahra)</button><button type="button" class="btn-pill btn-pill-lime" data-q="budi@student.unsil.ac.id|demo1234">Pembeli (Budi)</button><button type="button" class="btn-pill btn-pill-ink" data-q="admin@unsil.ac.id|admin123">Admin</button></div><a href="#" id="reset-demo" style="font-size:.8rem">Reset data demo</a></div>
+<div class="auth-tabs"><button id="t-in" class="on" type="button">Masuk</button><button id="t-up" type="button">Daftar</button></div>
+<div id="msg"></div>
+<form id="f-in"><div class="field"><label>Email kampus</label><input class="input-pill" type="email" id="i-email" placeholder="nama@student.unsil.ac.id" required></div>
+<div class="field"><label>Kata sandi</label><input class="input-pill" type="password" id="i-pass" required></div>
+<button class="btn-pill btn-pill-lime w-100 justify-content-center" type="submit">Masuk</button></form>
+<form id="f-up" hidden><div class="field"><label>Nama lengkap</label><input class="input-pill" id="u-name" required></div>
+<div class="field"><label>Email kampus</label><input class="input-pill" type="email" id="u-email" placeholder="nama@student.unsil.ac.id" required></div>
+<div class="field"><label>Nomor WhatsApp</label><input class="input-pill" id="u-phone" inputmode="tel" placeholder="08xxxxxxxxxx" required></div>
+<div class="field"><label>Foto KTM</label><input class="input-pill" type="file" id="u-ktm" accept="image/*" required></div>
+<div class="field"><label>Kata sandi (min. 6 karakter)</label><input class="input-pill" type="password" id="u-pass" required></div>
+<button class="btn-pill btn-pill-lime w-100 justify-content-center" type="submit">Daftar</button></form>
+<form id="f-vf" hidden><p style="font-size:.88rem">Masukkan kode 6 digit untuk memverifikasi email <b id="vf-email"></b>.</p>
+<div id="demo-code" class="msg ok"></div>
+<div class="field"><input class="input-pill" id="v-code" inputmode="numeric" maxlength="6" placeholder="000000" required></div>
+<button class="btn-pill btn-pill-lime w-100 justify-content-center" type="submit">Verifikasi</button></form>
+<p class="text-center mt-3 mb-0"><a href="../index.html" style="font-size:.85rem">Lihat katalog sebagai tamu</a></p>
+</div></div>
+<script type="module">
+import {getWordmarkLogo} from '../assets/js/components/logo.js';
+import {register,verify,login,seedUsers} from '../assets/js/services/auth.js';
+seedUsers();
+const $=id=>document.getElementById(id); $('logo').innerHTML=getWordmarkLogo({height:28});
+let pending='';
+const show=(w)=>{['f-in','f-up','f-vf'].forEach(i=>$(i).hidden=i!==w);$('t-in').classList.toggle('on',w==='f-in');$('t-up').classList.toggle('on',w==='f-up');};
+const say=(t,c='err')=>$('msg').innerHTML=t?'<div class="msg '+c+'">'+t+'</div>':'';
+const done=u=>location.href=u.role==='admin'?'admin.html':'../index.html';
+$('t-in').onclick=()=>{say('');show('f-in')};$('t-up').onclick=()=>{say('');show('f-up')};
+$('f-in').onsubmit=e=>{e.preventDefault();try{done(login($('i-email').value,$('i-pass').value))}catch(x){say(x.message);if(x.needVerify){pending=$('i-email').value;$('vf-email').textContent=pending;$('demo-code').textContent='Mode demo: daftar ulang untuk mendapat kode baru.';show('f-vf')}}};
+$('f-up').onsubmit=async e=>{e.preventDefault();
+  const file = $('u-ktm').files[0];
+  if (!file) { say('Foto KTM harus diunggah'); return; }
+  const reader = new FileReader();
+  reader.onload = async (ev) => {
+    try {
+      const c = register({ name:$('u-name').value, email:$('u-email').value, phone:$('u-phone').value, password:$('u-pass').value, ktmImage: ev.target.result });
+      pending=$('u-email').value;
+      $('vf-email').textContent=pending;
+      $('demo-code').textContent='Mode demo. Kode verifikasimu: '+c;
+      say('');show('f-vf');
+    } catch(x) { say(x.message); }
+  };
+  reader.readAsDataURL(file);
+};
+$('f-vf').onsubmit=e=>{e.preventDefault();try{done(verify(pending,$('v-code').value))}catch(x){say(x.message)}};
+document.querySelectorAll('[data-q]').forEach(b=>b.onclick=()=>{const [m,p]=b.dataset.q.split('|');try{done(login(m,p))}catch(x){say(x.message)}});
+$('reset-demo').onclick=ev=>{ev.preventDefault();if(!confirm('Reset semua data demo?'))return;Object.keys(localStorage).filter(k=>k.startsWith('prelovedu_')).forEach(k=>localStorage.removeItem(k));location.reload()};
+</script></body></html>
