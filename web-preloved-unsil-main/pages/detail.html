@@ -565,11 +565,14 @@
       const mainImg = document.getElementById('detail-img');
       const thumbsContainer = document.getElementById('detail-gallery-thumbs');
       const images = (prod.images && prod.images.length > 0) ? prod.images : ['assets/img/products/prd-001-1.jpg'];
-      mainImg.src = `../${images[0]}`;
+      
+      const getImgSrc = (src) => src.startsWith('data:') ? src : `../${src}`;
+      
+      mainImg.src = getImgSrc(images[0]);
 
       thumbsContainer.innerHTML = images.map((imgSrc, idx) => `
         <button type="button" class="gallery-thumb-btn ${idx === 0 ? 'active' : ''}" data-idx="${idx}" aria-label="Lihat foto ${idx + 1}">
-          <img src="../${imgSrc}" alt="Thumbnail ${idx + 1}" />
+          <img src="${getImgSrc(imgSrc)}" alt="Thumbnail ${idx + 1}" />
         </button>
       `).join('');
 
@@ -579,7 +582,7 @@
           thumb.classList.add('active');
           const idx = Number(thumb.getAttribute('data-idx'));
           mainImg.style.opacity = '0.4';
-          mainImg.src = `../${images[idx]}`;
+          mainImg.src = getImgSrc(images[idx]);
           setTimeout(() => { mainImg.style.opacity = '1'; }, 100);
         });
       });

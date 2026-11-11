@@ -266,25 +266,9 @@
           </div>
 
           <div class="mb-3">
-            <label class="form-label fw-bold" style="font-size: 0.88rem;">Pilihan Foto Barang</label>
-            <div class="d-flex gap-2 align-items-center flex-wrap" id="photo-choice-container">
-              <label class="d-flex align-items-center gap-2 p-2 border rounded" style="cursor: pointer; background: var(--paper);">
-                <input type="radio" name="photo_preset" value="assets/img/products/prd-001-1.jpg" checked />
-                <span style="font-size: 0.82rem; font-weight: 600;">Buku / Catatan</span>
-              </label>
-              <label class="d-flex align-items-center gap-2 p-2 border rounded" style="cursor: pointer; background: var(--paper);">
-                <input type="radio" name="photo_preset" value="assets/img/products/prd-002-1.jpg" />
-                <span style="font-size: 0.82rem; font-weight: 600;">Jas Lab / Pakaian</span>
-              </label>
-              <label class="d-flex align-items-center gap-2 p-2 border rounded" style="cursor: pointer; background: var(--paper);">
-                <input type="radio" name="photo_preset" value="assets/img/products/prd-004-1.jpg" />
-                <span style="font-size: 0.82rem; font-weight: 600;">Kalkulator / Elektronik</span>
-              </label>
-              <label class="d-flex align-items-center gap-2 p-2 border rounded" style="cursor: pointer; background: var(--paper);">
-                <input type="radio" name="photo_preset" value="assets/img/products/prd-003-1.jpg" />
-                <span style="font-size: 0.82rem; font-weight: 600;">Hoodie / Jaket</span>
-              </label>
-            </div>
+            <label class="form-label fw-bold" style="font-size: 0.88rem;">Foto Barang *</label>
+            <input type="file" id="form-photo" class="input-pill" accept="image/*" required />
+            <small class="text-muted" style="font-size: 0.78rem;">Pilih foto barang Anda.</small>
           </div>
 
           <div class="d-flex gap-2 mt-4">
@@ -683,16 +667,22 @@
         const cond = document.getElementById('form-condition').value;
         const faculty = document.getElementById('form-faculty').value;
         const desc = document.getElementById('form-desc').value.trim();
-        const photoRadio = document.querySelector('input[name="photo_preset"]:checked');
-        const photoSrc = photoRadio ? photoRadio.value : 'assets/img/products/prd-001-1.jpg';
-
-        document.getElementById('summary-img').src = `../${photoSrc}`;
+        const fileInput = document.getElementById('form-photo');
+        
         document.getElementById('summary-title').textContent = title;
         document.getElementById('summary-condition').textContent = cond;
         document.getElementById('summary-faculty').textContent = faculty;
         document.getElementById('summary-price').textContent = 'Rp ' + price.toLocaleString('id-ID');
         document.getElementById('summary-orig-price').textContent = origPrice ? 'Rp ' + origPrice.toLocaleString('id-ID') : '';
         document.getElementById('summary-desc').textContent = desc;
+
+        if (fileInput.files && fileInput.files[0]) {
+          const reader = new FileReader();
+          reader.onload = (e) => {
+            document.getElementById('summary-img').src = e.target.result;
+          };
+          reader.readAsDataURL(fileInput.files[0]);
+        }
 
         document.getElementById('summary-cod-spot').textContent = selectedCodLocation.spotName;
         document.getElementById('summary-cod-campus').textContent = `${selectedCodLocation.campusName} · Koordinat: ${selectedCodLocation.lat}, ${selectedCodLocation.lng}`;
@@ -701,53 +691,61 @@
       // Submit Form Akhir
       document.getElementById('sell-form').addEventListener('submit', (e) => {
         e.preventDefault();
-        const user = getCurrentUser();
-        const price = Number(document.getElementById('form-price').value);
-        const origPrice = Number(document.getElementById('form-original-price').value) || Math.round(price * 1.4);
-        const photoRadio = document.querySelector('input[name="photo_preset"]:checked');
-        const photoSrc = photoRadio ? photoRadio.value : 'assets/img/products/prd-001-1.jpg';
+        const fileInput = document.getElementById('form-photo');
+        if (!fileInput.files || !fileInput.files[0]) {
+          alert('Pilih foto terlebih dahulu.');
+          return;
+        }
 
-        const categorySelect = document.getElementById('form-category');
-        const categoryVal = categorySelect.value;
-        const categoryLabel = categorySelect.options[categorySelect.selectedIndex].text;
+        const reader = new FileReader();
+        reader.onload = (ev) => {
+          const user = getCurrentUser();
+          const price = Number(document.getElementById('form-price').value);
+          const origPrice = Number(document.getElementById('form-original-price').value) || Math.round(price * 1.4);
+          
+          const categorySelect = document.getElementById('form-category');
+          const categoryVal = categorySelect.value;
+          const categoryLabel = categorySelect.options[categorySelect.selectedIndex].text;
 
-        const newProduct = {
-          title: document.getElementById('form-title').value.trim(),
-          category: categoryVal,
-          categoryLabel: categoryLabel,
-          faculty: document.getElementById('form-faculty').value,
-          price: price,
-          originalPrice: origPrice,
-          condition: document.getElementById('form-condition').value,
-          conditionBadge: document.getElementById('form-condition').value,
-          description: document.getElementById('form-desc').value.trim(),
-          seller: {
-            name: user.name,
-            faculty: user.faculty,
-            isVerified: true,
-            activeItems: 1,
-            avatar: user.avatar || 'ZP',
-            phone: user.phone || '6281234567890'
-          },
-          codLocation: {
-            campus: selectedCodLocation.campus,
-            campusName: selectedCodLocation.campusName,
-            spotId: selectedCodLocation.spotId,
-            lat: selectedCodLocation.lat,
-            lng: selectedCodLocation.lng,
-            spotName: selectedCodLocation.spotName
-          },
-          images: [photoSrc],
-          colors: ['#2A2A2A'],
-          sizes: [],
-          featured: false
+          const newProduct = {
+            title: document.getElementById('form-title').value.trim(),
+            category: categoryVal,
+            categoryLabel: categoryLabel,
+            faculty: document.getElementById('form-faculty').value,
+            price: price,
+            originalPrice: origPrice,
+            condition: document.getElementById('form-condition').value,
+            conditionBadge: document.getElementById('form-condition').value,
+            description: document.getElementById('form-desc').value.trim(),
+            seller: {
+              name: user.name,
+              faculty: user.faculty,
+              isVerified: true,
+              activeItems: 1,
+              avatar: user.avatar || 'ZP',
+              phone: user.phone || '6281234567890'
+            },
+            codLocation: {
+              campus: selectedCodLocation.campus,
+              campusName: selectedCodLocation.campusName,
+              spotId: selectedCodLocation.spotId,
+              lat: selectedCodLocation.lat,
+              lng: selectedCodLocation.lng,
+              spotName: selectedCodLocation.spotName
+            },
+            images: [ev.target.result], // Base64 image
+            colors: ['#2A2A2A'],
+            sizes: [],
+            featured: false
+          };
+
+          const saved = addProduct(newProduct);
+          showToast('🎉 Iklan berhasil diterbitkan!');
+          setTimeout(() => {
+            window.location.href = `detail.html?id=${saved.id}`;
+          }, 900);
         };
-
-        const saved = addProduct(newProduct);
-        showToast('🎉 Iklan berhasil diterbitkan!');
-        setTimeout(() => {
-          window.location.href = `detail.html?id=${saved.id}`;
-        }, 900);
+        reader.readAsDataURL(fileInput.files[0]);
       });
     }
   </script>
